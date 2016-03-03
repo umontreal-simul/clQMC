@@ -1,0 +1,76 @@
+/* This file is part of clQMC.
+ *
+ * Copyright 2015-2016  Pierre L'Ecuyer, Universite de Montreal and Advanced Micro Devices, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Authors:
+ *
+ *   David Munger <mungerd@iro.umontreal.ca>        (2015)
+ *   Pierre L'Ecuyer <lecuyer@iro.umontreal.ca>     (2015)
+ *
+ */
+
+/*! @file clQMC.clh
+ *  @brief Common definitions for the device-side API of clQMC
+ *
+ *  The definitions defined in this file are not documented here.  Refer to the
+ *  documentation of clQMC.h.
+ */
+
+#pragma once
+#ifndef CLQMC_CLH
+#define CLQMC_CLH
+
+#ifndef __OPENCL_C_VERSION__
+#error "clQMC.clh can be included in device code only"
+#endif
+
+typedef double   clqmc_double;
+typedef float    clqmc_float;
+typedef int      clqmc_int;
+typedef uint     clqmc_uint;
+typedef long     clqmc_long;
+typedef ulong    clqmc_ulong;
+
+#ifdef CLQMC_SINGLE_PRECISION
+  typedef float	 clqmc_fptype;
+  #define _CLQMC_FPTYPE float
+#else
+  typedef double clqmc_fptype;
+  #define _CLQMC_FPTYPE double
+  #pragma OPENCL EXTENSION cl_amd_fp64 : enable
+#endif
+
+#define _CLQMC_TAG_FPTYPE(name)           _CLQMC_TAG_FPTYPE_(name,_CLQMC_FPTYPE)
+#define _CLQMC_TAG_FPTYPE_(name,fptype)   _CLQMC_TAG_FPTYPE__(name,fptype)
+#define _CLQMC_TAG_FPTYPE__(name,fptype)  name##_##fptype
+
+
+
+typedef enum clqmcStatus_ {
+    CLQMC_SUCCESS              = 0,
+    CLQMC_INVALID_VALUE        = -1
+} clqmcStatus;
+
+/*! This macro does nothing.
+ *  It is defined for convenience when adapting host code for the device.
+ */
+#define clqmcSetErrorString(err, ...) (err)
+
+
+#endif
+
+/*
+    vim: ft=c sw=4
+*/

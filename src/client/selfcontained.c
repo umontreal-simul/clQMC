@@ -1,60 +1,23 @@
-# clQMC Library
+/* This file is part of clQMC.
+ *
+ * Copyright 2015-2016  Pierre L'Ecuyer, Universite de Montreal and Advanced Micro Devices, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-A library for quasi-Monte Carlo methods in OpenCL.
-
-
-## Overview
-
-Quasi-Monte Carlo methods replace the independent uniform random numbers used in
-Monte Carlo simulation with carefully selected sampling points, to integrate
-smooth functions over the unit cube (in arbitrary dimension) with better
-accuracy.
-
-Quasi-Monte Carlo point sets are created on the host, and streams are attached
-to them to enumerate the points on the host or on the device. These streams act
-as sources of numbers in (0,1) and can replace the streams from the
-[clRNG](https://github.com/clMathLibraries/clRNG)
-library in code that uses them.
-The [clProbDist](https://github.com/umontreal-simul/clProbDist) library can also
-be used on top of clQMC for generating nonuniform variates.
-The design is closely inspired from that of the
-[SSJ library](https://github.com/umontreal-simul/ssj).
-
-**Only *rank-1 lattice rules* are currently implemented.**
-This is basically an *API proposal*, and lattice rules are provided for
-illustration of the ideas.
-The [Lattice Builder software](https://github.com/mungerd/latbuilder) can be
-used to find good parameters for rank-1 lattice rules.
-
-
-## Documentation
-
-The
-[clQMC documentation](http://umontreal-simul.github.io/clQMC/htmldocs/index.html)
-includes:
-
-- [an introduction to quasi-Monte Carlo methods](http://umontreal-simul.github.io/clQMC/htmldocs/index.html#qmc);
-- [usage examples](http://umontreal-simul.github.io/clQMC/htmldocs/index.html#examples) showing how to migrate from Monte Carlo with [clRNG](https://github.com/clMathLibraries/clRNG) to quasi-Monte Carlo using clQMC; and
-- [the API reference](http://umontreal-simul.github.io/clQMC/htmldocs/files.html).
-
-
-## Examples
-
-Examples can be found in `src/client`.
-The compiled client program examples can be found under the `bin` subdirectory
-of the installation package (`$CLQMC_ROOT/bin` under Linux).
-
-
-## Simple example
-
-The simple example below shows how to use clQMC to enumerate the coordinates of
-rank-1 lattice points by directly using device side headers (`.clh`) in your
-OpenCL kernel.
-Note that the example expects an OpenCL GPU device to be available.
-
-```c
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #define CLQMC_SINGLE_PRECISION
 #include <clQMC/clQMC.h>
@@ -177,9 +140,3 @@ int main( void )
 
     return 0;
 }
-```
-
-## Acknowledgments
-
-clQMC was developed by David Munger and Pierre L'Ecuyer at Université de Montréal,
-in collaboration with Advanced Micro Devices, Inc.

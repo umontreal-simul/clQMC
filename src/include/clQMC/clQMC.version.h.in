@@ -1,0 +1,3 @@
+#define clqmcVersionMajor @CLQMC_VERSION_MAJOR@
+#define clqmcVersionMinor @CLQMC_VERSION_MINOR@
+#define clqmcVersionPatch @CLQMC_VERSION_PATCH@

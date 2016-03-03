@@ -1,0 +1,12 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}/bin@SUFFIX_BIN@
+includedir=${prefix}/include
+libdir=${prefix}/lib@SUFFIX_LIB@
+
+Name: clQMC
+Description: Open source OpenCL quasi-Monte Carlo library
+Version: @CLQMC_VERSION@
+URL: https://github.com/clMathLibraries/clQMC
+
+Cflags: -I${includedir}
+Libs: -L${libdir} -lclQMC

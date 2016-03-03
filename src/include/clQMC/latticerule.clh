@@ -1,0 +1,73 @@
+/* This file is part of clQMC.
+ *
+ * Copyright 2015-2016  Pierre L'Ecuyer, Universite de Montreal and Advanced Micro Devices, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Authors:
+ *
+ *   David Munger <mungerd@iro.umontreal.ca>        (2015)
+ *   Pierre L'Ecuyer <lecuyer@iro.umontreal.ca>     (2015)
+ *
+ */
+
+/*! @file latticerule.clh
+ *  @brief Device interface for lattice rules
+ */
+
+#pragma once
+#ifndef CLQMC_LATTICERULE_CLH
+#define CLQMC_LATTICERULE_CLH
+
+#include <clQMC/clQMC.clh>
+
+#define _CLQMC_LATTICE_MEM __global
+#define _CLQMC_SHIFT_MEM __global
+
+/********************************************************************************
+ * Functions and types declarations                                             *
+ ********************************************************************************/
+
+struct clqmcLatticeRuleStream_;
+typedef struct clqmcLatticeRuleStream_ clqmcLatticeRuleStream;
+
+struct clqmcLatticeRule_;
+typedef struct clqmcLatticeRule_ clqmcLatticeRule;
+
+uint clqmcLatticeRuleNumPoints(_CLQMC_LATTICE_MEM const clqmcLatticeRule* lattice);
+uint clqmcLatticeRuleDimension(_CLQMC_LATTICE_MEM const clqmcLatticeRule* lattice);
+
+#define clqmcLatticeRuleCreateOverStream   _CLQMC_TAG_FPTYPE(clqmcLatticeRuleCreateOverStream)
+#define clqmcLatticeRuleNextCoordinate     _CLQMC_TAG_FPTYPE(clqmcLatticeRuleNextCoordinate)
+
+_CLQMC_FPTYPE clqmcLatticeRuleNextCoordinate(clqmcLatticeRuleStream* stream);
+uint clqmcLatticeRuleForwardToNextPoint(clqmcLatticeRuleStream* stream);
+uint clqmcLatticeRuleCurrentPointIndex(const clqmcLatticeRuleStream* stream);
+uint clqmcLatticeRuleCurrentCoordIndex(const clqmcLatticeRuleStream* stream);
+
+clqmcStatus clqmcLatticeRuleCreateOverStream(clqmcLatticeRuleStream* stream, _CLQMC_LATTICE_MEM const clqmcLatticeRule* lattice, uint partCount, uint partIndex, _CLQMC_SHIFT_MEM const _CLQMC_FPTYPE* shift);
+
+
+/********************************************************************************
+ * Implementation                                                               *
+ ********************************************************************************/
+
+// code that is common to the host and to the device
+#include <clQMC/private/latticerule.c.h>
+
+
+#endif
+
+/*
+    vim: ft=c sw=4
+*/
